@@ -16,7 +16,5 @@ int	ft_lerp_int(int start, int end, double percentage)
 {
 	if (start == end)
 		return (start);
-//	return ((int)(a + (b - a) * percentage));
-//	return (a * (1.0 - percentage) + (b * percentage));
 	return ((int)((1 - percentage) * start + percentage * end));
 }

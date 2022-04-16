@@ -70,7 +70,6 @@ static char	**ft_make_arr(const char *s, char **arr, char c)
 			arr[++j] = ft_strsub(s, (unsigned int)i, len);
 			if (!arr[j])
 				return (ft_free_arr(arr, j));
-//			printf("strsplit %p\n", (void *)&arr[j]);
 		}
 		i = i + len;
 		if (s[i] != '\0')
