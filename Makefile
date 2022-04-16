@@ -20,7 +20,8 @@ SRC = $Smain.c \
 	$Skey.c \
 	$Sdraw.c \
 	$Sutility.c \
-	$Slineclip.c
+	$Slineclip.c \
+	$Scolor.c
 
 HDR = $Sfdf.h
 
