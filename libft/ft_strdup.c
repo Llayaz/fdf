@@ -1,23 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_arr.c                                      :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncsomori <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ncsomori <ncsomori@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/08 20:04:22 by ncsomori          #+#    #+#             */
-/*   Updated: 2022/04/08 20:04:27 by ncsomori         ###   ########.fr       */
+/*   Created: 2021/10/28 15:23:09 by ncsomori          #+#    #+#             */
+/*   Updated: 2021/10/28 15:48:18 by ncsomori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free_array(char **arr)
+char	*ft_strdup(const char *src)
 {
-	size_t	j;
+	size_t	len;
+	size_t	i;
+	char	*str_cpy;
 
-	j = 0;
-	while (arr[j])
-		free(arr[j++]);
-	free(arr);
+	len = 0;
+	i = 0;
+	while (src[len] != '\0')
+		++len;
+	str_cpy = ft_strnew(len);
+	if (!str_cpy)
+		return (NULL);
+	while (src[i] != '\0')
+	{
+		str_cpy[i] = src[i];
+		++i;
+	}
+	return (str_cpy);
 }

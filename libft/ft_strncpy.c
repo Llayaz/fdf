@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_arr.c                                      :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ncsomori <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/08 20:04:22 by ncsomori          #+#    #+#             */
-/*   Updated: 2022/04/08 20:04:27 by ncsomori         ###   ########.fr       */
+/*   Created: 2021/11/03 12:00:25 by ncsomori          #+#    #+#             */
+/*   Updated: 2021/11/03 13:16:39 by ncsomori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free_array(char **arr)
+char	*ft_strncpy(char *dst, const char *src, size_t n)
 {
-	size_t	j;
+	size_t	i;
 
-	j = 0;
-	while (arr[j])
-		free(arr[j++]);
-	free(arr);
+	i = 0;
+	while (i < n && src[i] != '\0')
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	while (i < n)
+	{
+		dst[i] = '\0';
+		i++;
+	}
+	return (dst);
 }

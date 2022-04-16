@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_arr.c                                      :+:      :+:    :+:   */
+/*   ft_striter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncsomori <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ncsomori <ncsomori@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/08 20:04:22 by ncsomori          #+#    #+#             */
-/*   Updated: 2022/04/08 20:04:27 by ncsomori         ###   ########.fr       */
+/*   Created: 2021/11/11 17:23:47 by ncsomori          #+#    #+#             */
+/*   Updated: 2021/11/11 17:26:53 by ncsomori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	ft_free_array(char **arr)
+void	ft_striter(char *s, void (*f)(char *))
 {
-	size_t	j;
+	unsigned int	i;
 
-	j = 0;
-	while (arr[j])
-		free(arr[j++]);
-	free(arr);
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i] != '\0')
+	{
+		f(&s[i]);
+		++i;
+	}
 }

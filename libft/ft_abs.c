@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_arr.c                                      :+:      :+:    :+:   */
+/*   ft_abs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ncsomori <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/08 20:04:22 by ncsomori          #+#    #+#             */
-/*   Updated: 2022/04/08 20:04:27 by ncsomori         ###   ########.fr       */
+/*   Created: 2022/04/01 17:37:07 by ncsomori          #+#    #+#             */
+/*   Updated: 2022/04/01 17:38:42 by ncsomori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free_array(char **arr)
+int	ft_abs(int nb)
 {
-	size_t	j;
-
-	j = 0;
-	while (arr[j])
-		free(arr[j++]);
-	free(arr);
+	if (nb < 0)
+		return (nb * -1);
+	return (nb);
 }

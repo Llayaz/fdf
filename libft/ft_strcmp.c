@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_arr.c                                      :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncsomori <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ncsomori <ncsomori@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/08 20:04:22 by ncsomori          #+#    #+#             */
-/*   Updated: 2022/04/08 20:04:27 by ncsomori         ###   ########.fr       */
+/*   Created: 2021/10/28 12:49:22 by ncsomori          #+#    #+#             */
+/*   Updated: 2021/10/28 13:03:27 by ncsomori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	ft_free_array(char **arr)
+int	ft_strcmp(char const *s1, char const *s2)
 {
-	size_t	j;
+	int	i;
 
-	j = 0;
-	while (arr[j])
-		free(arr[j++]);
-	free(arr);
+	i = 0;
+	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

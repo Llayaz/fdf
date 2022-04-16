@@ -84,7 +84,9 @@ SRCS = 	./ft_atoi.c		\
 	./ft_word_count.c	\
 	./get_next_line.c	\
 	./ft_abs.c			\
-	./ft_abs_f.c
+	./ft_abs_f.c		\
+	./ft_atoi_hex.c		\
+	./ft_lerp_int.c
 
 HDRS = libft.h
 

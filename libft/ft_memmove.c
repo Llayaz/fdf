@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_arr.c                                      :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncsomori <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ncsomori <ncsomori@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/08 20:04:22 by ncsomori          #+#    #+#             */
-/*   Updated: 2022/04/08 20:04:27 by ncsomori         ###   ########.fr       */
+/*   Created: 2021/11/08 13:34:25 by ncsomori          #+#    #+#             */
+/*   Updated: 2021/11/08 13:37:51 by ncsomori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free_array(char **arr)
+void	*ft_memmove(void *dest, const void *src, size_t len)
 {
-	size_t	j;
+	unsigned char	*d;
+	unsigned char	*s;
 
-	j = 0;
-	while (arr[j])
-		free(arr[j++]);
-	free(arr);
+	d = (unsigned char *)dest;
+	s = (unsigned char *)src;
+	if (s < d)
+		while (len--)
+			d[len] = s[len];
+	else
+		ft_memcpy(d, s, len);
+	return (dest);
 }

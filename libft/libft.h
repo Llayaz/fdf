@@ -100,5 +100,7 @@ int		get_next_line(const int fd, char **line);
 int		ft_abs(int nb);
 float	ft_abs_f(float nb);
 void	ft_free_array(char **arr);
+int		ft_atoi_hex(char *str);
+int		ft_lerp_int(int a, int b, double percentage);
 
 #endif

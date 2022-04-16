@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_arr.c                                      :+:      :+:    :+:   */
+/*   ft_iscntrl.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ncsomori <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ncsomori <ncsomori@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/08 20:04:22 by ncsomori          #+#    #+#             */
-/*   Updated: 2022/04/08 20:04:27 by ncsomori         ###   ########.fr       */
+/*   Created: 2021/12/13 20:25:43 by ncsomori          #+#    #+#             */
+/*   Updated: 2021/12/13 20:26:01 by ncsomori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	ft_free_array(char **arr)
+int	ft_iscntrl(int c)
 {
-	size_t	j;
-
-	j = 0;
-	while (arr[j])
-		free(arr[j++]);
-	free(arr);
+	if ((c >= 0 && c <= 31) || c == 127)
+		return (1);
+	else
+		return (0);
 }

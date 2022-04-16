@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_arr.c                                      :+:      :+:    :+:   */
+/*   ft_lerp_int.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ncsomori <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/08 20:04:22 by ncsomori          #+#    #+#             */
-/*   Updated: 2022/04/08 20:04:27 by ncsomori         ###   ########.fr       */
+/*   Created: 2022/04/15 18:25:49 by ncsomori          #+#    #+#             */
+/*   Updated: 2022/04/15 18:25:54 by ncsomori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free_array(char **arr)
+int	ft_lerp_int(int start, int end, double percentage)
 {
-	size_t	j;
-
-	j = 0;
-	while (arr[j])
-		free(arr[j++]);
-	free(arr);
+	if (start == end)
+		return (start);
+//	return ((int)(a + (b - a) * percentage));
+//	return (a * (1.0 - percentage) + (b * percentage));
+	return ((int)((1 - percentage) * start + percentage * end));
 }
