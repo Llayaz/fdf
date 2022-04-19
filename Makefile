@@ -20,6 +20,7 @@ SRC = $Smain.c \
 	$Skey.c \
 	$Sdraw.c \
 	$Sutility.c \
+	$Sutility2.c \
 	$Slineclip.c \
 	$Scolor.c
 
@@ -29,10 +30,12 @@ OBJ = $(SRC:%.c=%.o)
 
 LIBFT = libft/
 LIBA = libft/libft.a
+MLX = $(MLX_DIRECTORY)libmlx.a
+MLX_DIRECTORY = ./mlx/
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -O3
 MLXFLAGS = -lmlx -lX11 -lXext -framework OpenGL -framework AppKit
 
 RM = /bin/rm -f
@@ -43,21 +46,25 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(CC) -I /usr/X11/include -L /usr/X11/lib $(MLXFLAGS) -o $@ \
-	$(CFLAGS) $(OBJ) $(LIBA)
+	$(CFLAGS) $(OBJ) $(LIBA) $(MLX)
 
 $(LIBA):
 	make -C $(LIBFT)
 
-%.o: %.c $(LIBA) $(HDR)
+$(MLX):
+	make -C $(MLX_DIRECTORY)
+
+%.o: %.c $(LIBA) $(MLX) $(HDR)
 	gcc $(CFLAGS) -Imlx -c $< -o $@
 
 clean:
 	$(RM) $(OBJ)
 	make -C $(LIBFT) clean
+	make -C $(MLX_DIRECTORY) clean
 
 fclean: clean
 	$(RM) $(NAME)
 	make -C $(LIBFT) fclean
+	$(RM) $(MLX)
 
 re: fclean all
-
