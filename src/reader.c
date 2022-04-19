@@ -59,9 +59,7 @@ void	get_length(char *file, t_mlx *mlx)
 	int		fd;
 	int		ret;
 	char	*line;
-//	int		i;
 
-//	i = 0;
 	mlx->height = 0;
 	fd = open_file(file);
 	ret = get_next_line(fd, &line);
@@ -78,10 +76,8 @@ void	get_length(char *file, t_mlx *mlx)
 		ret = get_next_line(fd, &line);
 		if (ft_word_count(line, ' ') != mlx->width && ret != 0)
 			kill_err("Invalid map");
-//		i++;
 		mlx->height++;
 	}
-//	mlx->height = i;
 	if (close(fd) < 0)
 		kill_err("Failed to close file");
 }
@@ -103,16 +99,16 @@ void	set_default(t_mlx *mlx)
 	mlx->scale_z = 5;
 	mlx->max_z = 0;
 	mlx->min_z = 0;
-	mlx->is_iso = 0;
-	mlx->offset_x = (mlx->width * mlx->scale) / 2  - mlx->win_x / 2;
+	mlx->is_iso = 1;
+	mlx->offset_x = (mlx->width * mlx->scale) / 2 - mlx->win_x / 2;
 	if (mlx->width < mlx->win_x)
-		mlx->offset_x = mlx->win_x / 2 - (mlx->width * mlx->scale) / 2;
-//	if (mlx->offset_x <= 0 || mlx->offset_x > mlx->win_x)
-//		mlx->offset_x = 0;
+		mlx->offset_x = mlx->win_x / 4 * 3 - (mlx->width * mlx->scale) / 2;
+	if (mlx->offset_x <= 0 || mlx->offset_x > mlx->win_x)
+		mlx->offset_x = 0;
 	mlx->offset_y = (mlx->height * mlx->scale) / 2 - mlx->win_y / 2;
-	if (mlx->width < mlx->win_x)
-		mlx->offset_y = mlx->win_y / 2 - (mlx->height * mlx->scale) / 2;
-//	if (mlx->offset_y <= 0 || mlx->offset_y > mlx->win_y)
-//		mlx->offset_y = 0;
-	mlx->color_style = 2;
+	if (mlx->height < mlx->win_y)
+		mlx->offset_y = mlx->win_y / 3 - (mlx->height * mlx->scale) / 2;
+	if (mlx->offset_y <= 0 || mlx->offset_y > mlx->win_y)
+		mlx->offset_y = 0;
+	mlx->color_style = 3;
 }

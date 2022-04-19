@@ -42,6 +42,9 @@ typedef struct s_data
 	float	dy;
 	float	startx;
 	float	starty;
+	float	step_x;
+	float	step_y;
+	float	max;
 	int		a_color;
 	int		b_color;
 	int		color;

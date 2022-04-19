@@ -24,6 +24,52 @@ double	percent(int start, int end, int current)
 	return (placement / distance);
 }
 
+void	style_2(t_matrix *a, t_matrix *b, t_data *new)
+{
+	if (a->z == 0 && b->z == 0)
+	{
+		new->a_color = 0x145277;
+		new->b_color = 0x145277;
+	}
+	if (a->z != 0 && b->z != 0)
+	{
+		new->a_color = 0x83d0cb;
+		new->b_color = 0x83d0cb;
+	}
+	if (a->z != 0 && b->z == 0)
+	{
+		new->a_color = 0x83d0cb;
+		new->b_color = 0x145277;
+	}
+	if (b->z != 0 && a->z == 0)
+	{
+		new->b_color = 0x83d0cb;
+		new->a_color = 0x145277;
+	}
+	new->color = new->a_color;
+}
+
+void	style_3(t_matrix *a, t_matrix *b, t_data *new, t_mlx *mlx)
+{
+	double	percentage;
+
+	percentage = percent(mlx->min_z, mlx->max_z, a->z);
+	if (percentage < 0.35)
+		new->a_color = 0x074170;
+	else if (percentage < 0.65)
+		new->a_color = 0x7e9012;
+	else
+		new->a_color = 0xfff708;
+	percentage = percent(mlx->min_z, mlx->max_z, b->z);
+	if (percentage < 0.35)
+		new->b_color = 0x074170;
+	else if (percentage < 0.65)
+		new->b_color = 0x7e9012;
+	else
+		new->b_color = 0xfff708;
+	new->color = new->a_color;
+}
+
 /*
 ** style 1 : parsed color from map + white is no color was given
 ** style 2 : two color, dark at min z, light at other, gradient
@@ -32,8 +78,6 @@ double	percent(int start, int end, int current)
 
 void	set_style(t_matrix *a, t_matrix *b, t_data *new, t_mlx *mlx)
 {
-	double	percentage;
-
 	if (mlx->color_style == 1)
 	{
 		new->a_color = a->color;
@@ -45,59 +89,9 @@ void	set_style(t_matrix *a, t_matrix *b, t_data *new, t_mlx *mlx)
 		new->color = new->a_color;
 	}
 	if (mlx->color_style == 2)
-	{
-		if (a->z == 0 && b->z == 0)
-		{
-			new->a_color = 0x145277;
-			new->b_color = 0x145277;
-		}
-		if (a->z != 0 && b->z != 0)
-		{
-			new->a_color = 0x83d0cb;
-			new->b_color = 0x83d0cb;
-		}
-		if (a->z != 0 && b->z == 0)
-		{
-			new->a_color = 0x83d0cb;
-			new->b_color = 0x145277;
-		}
-		if (b->z != 0 && a->z == 0)
-		{
-			new->b_color = 0x83d0cb;
-			new->a_color = 0x145277;
-		}
-		new->color = new->a_color;
-	}
+		style_2(a, b, new);
 	if (mlx->color_style == 3)
-	{
-		percentage = percent(mlx->min_z, mlx->max_z, a->z);
-		if (percentage < 0.35)
-			new->a_color = 0x074170;
-//			new->a_color = 0x3bcfd4;
-//			new->a_color = 0xc5f9d7;
-		else if (percentage < 0.65)
-			new->a_color = 0x7e9012;
-//			new->a_color = 0xf20094;
-//			new->a_color = 0xf7d486;
-		else
-			new->a_color = 0xfff708;
-//			new->a_color = 0xf27a7d;
-//			new->a_color = 0xf27a7d;
-		percentage = percent(mlx->min_z, mlx->max_z, b->z);
-		if (percentage < 0.35)
-			new->b_color = 0x074170;
-//			new->b_color = 0x3bcfd4;
-//			new->b_color = 0xc5f9d7;
-		else if (percentage < 0.65)
-			new->b_color = 0x7e9012;
-//			new->b_color = 0xf20094;
-//			new->b_color = 0xf7d486;
-		else
-			new->b_color = 0xfff708;
-//			new->b_color = 0xf27a7d;
-//			new->b_color = 0xf27a7d;
-		new->color = new->a_color;
-	}
+		style_3(a, b, new, mlx);
 }
 
 /*

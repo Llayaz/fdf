@@ -31,9 +31,6 @@ t_data	adj_data(t_matrix a, t_matrix b, t_mlx *mlx)
 {
 	t_data	new;
 
-//	new = ft_malloc(sizeof(t_data));
-//	if (!new)
-//		kill_err("Failed to allocate");
 	set_style(&a, &b, &new, mlx);
 	if (mlx->is_iso == 1)
 		isometric(&a, &b, &new, mlx);
@@ -48,41 +45,25 @@ t_data	adj_data(t_matrix a, t_matrix b, t_mlx *mlx)
 	}
 	new.dx = ft_abs_f(new.bx - new.ax);
 	new.dy = ft_abs_f(new.by - new.ay);
-//	set_style(&a, &b, &new, mlx);
-/*	new.a_color = a.color;
-	if (a.color == 0)
-		new.a_color = 0xffffff;
-	new.b_color = b.color;
-	if (b.color == 0)
-		new.b_color = 0xffffff;
-	new.color = a.color;*/
 	new.startx = new.ax;
 	new.starty = new.ay;
-/*	if (a.color == 0 && b.color == 0)
-	{
-		new.color = 0x00ffffff;
-		if (a.z != 0 || b.z != 0)
-			new.color = 0xff00ff;
-	}*/
+	new.step_x = new.bx - new.ax;
+	new.step_y = new.by - new.ay;
+	new.max = set_max(new.step_x, new.step_y);
+	new.step_x /= new.max;
+	new.step_y /= new.max;
 	return (new);
 }
 
 void	draw_line(t_matrix a, t_matrix b, t_mlx *mlx)
 {
 	t_data	ab;
-	float	step_x;
-	float	step_y;
-	float	max;
 
 	ab = adj_data(a, b, mlx);
-	step_x = ab.bx - ab.ax;
-	step_y = ab.by - ab.ay;
-	max = set_max(step_x, step_y);
-	step_x /= max;
-	step_y /= max;
 	while ((int)(ab.ax - ab.bx) || (int)(ab.ay - ab.by))
 	{
-		if (ab.ax > (mlx->win_x - 1) || ab.ay > mlx->win_y || ab.ay < 0 || ab.ax < 0)
+		if (ab.ax > (mlx->win_x - 1) || ab.ay > mlx->win_y
+			|| ab.ay < 0 || ab.ax < 0)
 		{
 			if ((ab.bx > 0 && ab.bx < (mlx->win_x - 1))
 				|| (ab.by > 0 && ab.by < (mlx->win_y)))
@@ -92,11 +73,12 @@ void	draw_line(t_matrix a, t_matrix b, t_mlx *mlx)
 		if (ab.a_color != ab.b_color)
 			ab.color = set_color(ab);
 		my_pixel_put(&mlx->img, ab.ax, ab.ay, ab.color);
-		ab.ax += step_x;
-		ab.ay += step_y;
+		ab.ax += ab.step_x;
+		ab.ay += ab.step_y;
 	}
-	if (ab.ax < (mlx->win_x - 1) && ab.ay < mlx->win_y && ab.ay > 0 && ab.ax > 0)
-			my_pixel_put(&mlx->img, ab.ax, ab.ay, ab.color);
+	if (ab.ax < (mlx->win_x - 1) && ab.ay < mlx->win_y
+		&& ab.ay > 0 && ab.ax > 0)
+		my_pixel_put(&mlx->img, ab.ax, ab.ay, ab.color);
 }
 
 void	new_img(t_mlx *mlx)

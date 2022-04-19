@@ -26,10 +26,22 @@ void	move_key(int key_nb, t_mlx *mlx)
 
 void	zoom_key(int key_nb, t_mlx *mlx)
 {
+	float	old;
+	float	prop;
+
+	old = mlx->scale;
 	if (key_nb == 43)
+	{
 		mlx->scale += 2;
+		prop = mlx->scale / old;
+		mlx->scale_z *= prop;
+	}
 	if (key_nb == 45 && mlx->scale > 2)
+	{
 		mlx->scale -= 2;
+		prop = mlx->scale / old;
+		mlx->scale_z *= prop;
+	}
 	if (key_nb == 57)
 		mlx->scale_z += 1;
 	if (key_nb == 56)
