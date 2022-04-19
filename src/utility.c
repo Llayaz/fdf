@@ -14,17 +14,18 @@
 
 void	clearup(t_mlx *mlx)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	if (mlx->map)
-	{	
-		if (mlx->map[i])
+	{
+		while (i < mlx->height)
 		{
-			free(mlx->map[i]);
+			if (mlx->map[i])
+				free(mlx->map[i]);
 			i++;
 		}
-	free(mlx->map);
+		free(mlx->map);
 	}
 }
 
@@ -40,12 +41,10 @@ int	is_num(char *str)
 	int	i;
 
 	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
 	while (str[i] != '\0')
 	{
-		if (i == 0 && str[i] == '-')
-			i++;
-		if (str[i] == '\0')
-			return (0);
 		if (ft_isdigit(str[i] != 1))
 			return (0);
 		i++;
@@ -60,7 +59,7 @@ int	is_color(char *str)
 
 	i = 0;
 	j = 0;
-	if (str[i] != 0)
+	if (str[i] != '0')
 		return (0);
 	i++;
 	if (str[i] != 'x')
@@ -78,6 +77,11 @@ int	is_color(char *str)
 	return (1);
 }
 
+/*
+** checks if array 'z,color' is valid, z can only have numbers, color can only
+** contain hexadecimal values for format 0xXXXXXXXX, color is not necessary
+*/
+
 int	is_valid(char *str)
 {
 	char	**arr;
@@ -87,16 +91,22 @@ int	is_valid(char *str)
 	arr = ft_strsplit(str, ',');
 	if (!arr)
 		kill_err("Parsing error");
-	if (arr[i][0] != '\0')
+	if (arr[i] != NULL)
 		i++;
 	if (i > 2)
 		return (0);
 	if (i == 1)
 		if (is_num(arr[0]) == 1)
+		{
+			ft_free_array(arr);
 			return (1);
+		}
 	if (i == 2)
 		if (is_num(arr[0]) == 1 && is_color(arr[1]) == 1)
+		{
+			ft_free_array(arr);
 			return (1);
+		}
 	ft_free_array(arr);
 	return (0);
 }

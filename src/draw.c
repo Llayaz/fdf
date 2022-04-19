@@ -22,17 +22,21 @@ void	isometric(t_matrix *a, t_matrix *b, t_data *new, t_mlx *mlx)
 		+ mlx->offset_y - (b->z * mlx->scale_z);
 }
 
+/*
+** transforming data of a and b to struct for line for different projections
+** and color schemes
+*/
+
 t_data	adj_data(t_matrix a, t_matrix b, t_mlx *mlx)
 {
 	t_data	new;
-	t_data	*ptr;
 
-	ptr = &new;
 //	new = ft_malloc(sizeof(t_data));
 //	if (!new)
 //		kill_err("Failed to allocate");
+	set_style(&a, &b, &new, mlx);
 	if (mlx->is_iso == 1)
-		isometric(&a, &b, ptr, mlx);
+		isometric(&a, &b, &new, mlx);
 	if (mlx->is_iso == 0)
 	{
 		new.ax = a.x * mlx->scale + mlx->offset_x;
@@ -44,9 +48,22 @@ t_data	adj_data(t_matrix a, t_matrix b, t_mlx *mlx)
 	}
 	new.dx = ft_abs_f(new.bx - new.ax);
 	new.dy = ft_abs_f(new.by - new.ay);
-	new.color = 0xffffff;
-	if (a.z != 0 || b.z != 0)
-		new.color = 0xff;
+//	set_style(&a, &b, &new, mlx);
+/*	new.a_color = a.color;
+	if (a.color == 0)
+		new.a_color = 0xffffff;
+	new.b_color = b.color;
+	if (b.color == 0)
+		new.b_color = 0xffffff;
+	new.color = a.color;*/
+	new.startx = new.ax;
+	new.starty = new.ay;
+/*	if (a.color == 0 && b.color == 0)
+	{
+		new.color = 0x00ffffff;
+		if (a.z != 0 || b.z != 0)
+			new.color = 0xff00ff;
+	}*/
 	return (new);
 }
 
@@ -65,17 +82,21 @@ void	draw_line(t_matrix a, t_matrix b, t_mlx *mlx)
 	step_y /= max;
 	while ((int)(ab.ax - ab.bx) || (int)(ab.ay - ab.by))
 	{
-		if (ab.ax > mlx->win_x || ab.ay > mlx->win_y || ab.ay < 0 || ab.ax < 0)
+		if (ab.ax > (mlx->win_x - 1) || ab.ay > mlx->win_y || ab.ay < 0 || ab.ax < 0)
 		{
-			lineclip(a, b, mlx);
+			if ((ab.bx > 0 && ab.bx < (mlx->win_x - 1))
+				|| (ab.by > 0 && ab.by < (mlx->win_y)))
+				lineclip(a, b, mlx);
 			break ;
 		}
+		if (ab.a_color != ab.b_color)
+			ab.color = set_color(ab);
 		my_pixel_put(&mlx->img, ab.ax, ab.ay, ab.color);
 		ab.ax += step_x;
 		ab.ay += step_y;
 	}
-	if (ab.ax < mlx->win_x && ab.ay < mlx->win_y && ab.ay > 0 && ab.ax > 0)
-		my_pixel_put(&mlx->img, ab.ax, ab.ay, ab.color);
+	if (ab.ax < (mlx->win_x - 1) && ab.ay < mlx->win_y && ab.ay > 0 && ab.ax > 0)
+			my_pixel_put(&mlx->img, ab.ax, ab.ay, ab.color);
 }
 
 void	new_img(t_mlx *mlx)
@@ -108,6 +129,7 @@ void	draw_img(t_mlx *mlx)
 		y++;
 	}
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img.img, 0, 0);
+	write_instruct(mlx);
 	mlx_key_hook(mlx->win_ptr, deal_key, mlx);
 	mlx_loop(mlx->mlx_ptr);
 }

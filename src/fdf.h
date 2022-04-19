@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <unistd.h>
+# include <errno.h>
 # include <stdio.h>
 
 typedef struct s_img
@@ -39,7 +40,11 @@ typedef struct s_data
 	float	bz;
 	float	dx;
 	float	dy;
-	float	color;
+	float	startx;
+	float	starty;
+	int		a_color;
+	int		b_color;
+	int		color;
 }	t_data;
 
 typedef struct s_matrix
@@ -60,15 +65,19 @@ typedef struct s_mlx
 	size_t		win_y;
 	size_t		width;
 	size_t		height;
+	float		max_z;
+	float		min_z;
 	float		angle;
 	float		scale;
 	float		scale_z;
 	float		is_iso;
 	float		offset_x;
 	float		offset_y;
+	size_t		color_style;
 }	t_mlx;
 
 void	kill_err(char *err);
+void	kill_array(char **arr);
 void	get_length(char *file, t_mlx *mlx);
 void	set_default(t_mlx *mlx);
 void	make_map(char *file, t_mlx *mlx);
@@ -81,7 +90,9 @@ int		is_valid(char *str);
 int		is_color(char *str);
 float	set_max(float a, float b);
 void	clearup(t_mlx *mlx);
-void	print_map(t_matrix **map, t_mlx *mlx);
 void	lineclip(t_matrix a, t_matrix b, t_mlx *mlx);
+int		set_color(t_data ab);
+void	set_style(t_matrix *a, t_matrix *b, t_data *new, t_mlx *mlx);
+void	write_instruct(t_mlx *mlx);
 
 #endif

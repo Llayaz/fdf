@@ -12,6 +12,11 @@
 
 #include "fdf.h"
 
+/*
+** in case ax or ay is not in the window, lineclip tries to draw pixels
+** starting from bx and by if any of those are still in the window
+*/
+
 void	lineclip(t_matrix a, t_matrix b, t_mlx *mlx)
 {
 	t_data	line_ab;
@@ -27,10 +32,14 @@ void	lineclip(t_matrix a, t_matrix b, t_mlx *mlx)
 	step_y /= max;
 	while ((int)(line_ab.ax - line_ab.bx) || (int)(line_ab.ay - line_ab.by))
 	{
-		if (line_ab.ax > mlx->win_x || line_ab.ay > mlx->win_y
-			|| line_ab.ay < 0 || line_ab.ax < 0)
-			break ;
-		my_pixel_put(&mlx->img, line_ab.ax, line_ab.ay, line_ab.color);
+//		if (line_ab.ax > (mlx->win_x - 1) || line_ab.ay > mlx->win_y
+//			|| line_ab.ay < 0 || line_ab.ax < 0)
+//			break ;
+		if (line_ab.a_color != line_ab.b_color)
+			line_ab.color = set_color(line_ab);
+		if (line_ab.ax < (mlx->win_x - 1) && line_ab.ay < mlx->win_y
+			&& line_ab.ay > 0 && line_ab.ax > 0)
+			my_pixel_put(&mlx->img, line_ab.ax, line_ab.ay, line_ab.color);
 		line_ab.ax += step_x;
 		line_ab.ay += step_y;
 	}
