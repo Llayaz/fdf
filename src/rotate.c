@@ -21,7 +21,7 @@ void	rotate_x(t_data *new, t_mlx *mlx)
 	new->az = (float)(-y * sin(mlx->alpha) + new->az * cos(mlx->alpha));
 	y = new->by;
 	new->by = y * cos(mlx->alpha) + new->bz * sin(mlx->alpha);
-	new->bz =(float)(-y * sin(mlx->alpha) + new->bz * cos(mlx->alpha));
+	new->bz = (float)(-y * sin(mlx->alpha) + new->bz * cos(mlx->alpha));
 }
 
 void	rotate_y(t_data *new, t_mlx *mlx)

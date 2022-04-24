@@ -16,7 +16,7 @@ void	new_img(t_mlx *mlx)
 {
 	mlx_destroy_image(mlx->mlx_ptr, mlx->img.img);
 	mlx->img.img = mlx_new_image(mlx->mlx_ptr, (int)mlx->win_x,
-		(int)mlx->win_y);
+			(int)mlx->win_y);
 	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp,
 			&mlx->img.line_len, &mlx->img.endian);
 }
