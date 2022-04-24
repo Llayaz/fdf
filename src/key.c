@@ -12,18 +12,6 @@
 
 #include "fdf.h"
 
-void	move_key(int key_nb, t_mlx *mlx)
-{
-	if (key_nb == 65363)
-		mlx->offset_x += 20;
-	if (key_nb == 65361)
-		mlx->offset_x -= 20;
-	if (key_nb == 65362)
-		mlx->offset_y -= 20;
-	if (key_nb == 65364)
-		mlx->offset_y += 20;
-}
-
 void	zoom_key(int key_nb, t_mlx *mlx)
 {
 	float	old;
@@ -73,13 +61,14 @@ int	deal_key(int key_nb, t_mlx *mlx)
 	ft_putnbr(key_nb);
 	if (key_nb == 65307)
 		esc_key(mlx);
-	if (key_nb == 112)
+	if (key_nb == 111)
 	{
-		if (mlx->is_iso == 0)
-			mlx->is_iso = 1;
-		else
-			mlx->is_iso = 0;
+		mlx->offset_x = mlx->win_x / 4 * 3 - (mlx->width * mlx->scale) / 2;
+		mlx->offset_y = mlx->win_y / 3 - (mlx->height * mlx->scale) / 2;
 	}
+	if (key_nb == 101 || key_nb == 114 || key_nb == 116 || key_nb == 112
+		|| key_nb == 105)
+		projection_rotation(key_nb, mlx);
 	if (key_nb == 65363 || key_nb == 65361 || key_nb == 65362
 		|| key_nb == 65364)
 		move_key(key_nb, mlx);

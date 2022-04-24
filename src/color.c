@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-double	percent(int start, int end, int current)
+double	percent(double start, double end, double current)
 {
 	double	placement;
 	double	distance;

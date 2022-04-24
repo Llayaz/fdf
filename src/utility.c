@@ -12,21 +12,13 @@
 
 #include "fdf.h"
 
-void	clearup(t_mlx *mlx)
+void	new_img(t_mlx *mlx)
 {
-	size_t	i;
-
-	i = 0;
-	if (mlx->map)
-	{
-		while (i < mlx->height)
-		{
-			if (mlx->map[i])
-				free(mlx->map[i]);
-			i++;
-		}
-		free(mlx->map);
-	}
+	mlx_destroy_image(mlx->mlx_ptr, mlx->img.img);
+	mlx->img.img = mlx_new_image(mlx->mlx_ptr, (int)mlx->win_x,
+		(int)mlx->win_y);
+	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp,
+			&mlx->img.line_len, &mlx->img.endian);
 }
 
 float	set_max(float a, float b)
@@ -67,7 +59,7 @@ int	is_color(char *str)
 	i++;
 	while (str[i] != '\0')
 	{
-		if (ft_isxdigit(str[i] != 1))
+		if (ft_isxdigit(str[i]) != 1)
 			return (0);
 		j++;
 		i++;
@@ -82,7 +74,7 @@ int	is_color(char *str)
 ** contain hexadecimal values for format 0xXXXXXXXX, color is not necessary
 */
 
-int	is_valid(char *str)
+int	is_valid(char *str, t_mlx *mlx)
 {
 	char	**arr;
 	int		i;
@@ -90,23 +82,21 @@ int	is_valid(char *str)
 	i = 0;
 	arr = ft_strsplit(str, ',');
 	if (!arr)
-		kill_err("Parsing error");
+		kill_mlx("Parsing error", mlx);
 	if (arr[i] != NULL)
 		i++;
 	if (i > 2)
 		return (0);
-	if (i == 1)
-		if (is_num(arr[0]) == 1)
-		{
-			ft_free_array(arr);
-			return (1);
-		}
-	if (i == 2)
-		if (is_num(arr[0]) == 1 && is_color(arr[1]) == 1)
-		{
-			ft_free_array(arr);
-			return (1);
-		}
+	if (i == 1 && is_num(arr[0]))
+	{
+		ft_free_array(arr);
+		return (1);
+	}
+	if (i == 2 && is_num(arr[0]) == 1 && is_color(arr[1]) == 1)
+	{
+		ft_free_array(arr);
+		return (1);
+	}
 	ft_free_array(arr);
 	return (0);
 }

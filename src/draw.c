@@ -12,14 +12,29 @@
 
 #include "fdf.h"
 
-void	isometric(t_matrix *a, t_matrix *b, t_data *new, t_mlx *mlx)
+void	isometric(t_data *new, t_mlx *mlx)
 {
-	new->ax = (a->x - a->y) * mlx->scale * cos(mlx->angle) + mlx->offset_x;
-	new->ay = (a->x + a->y) * mlx->scale * sin(mlx->angle)
-		+ mlx->offset_y - (a->z * mlx->scale_z);
-	new->bx = (b->x - b->y) * mlx->scale * cos(mlx->angle) + mlx->offset_x;
-	new->by = (b->x + b->y) * mlx->scale * sin(mlx->angle)
-		+ mlx->offset_y - (b->z * mlx->scale_z);
+	double	x;
+	double	y;
+
+	x = new->ax;
+	y = new->ay;
+	new->ax = (x - y) * cos(mlx->angle);
+	new->ay = (x + y) * sin(mlx->angle) - new->az;
+	x = new->bx;
+	y = new->by;
+	new->bx = (x - y) * cos(mlx->angle);
+	new->by = (x + y) * sin(mlx->angle) - new->bz;
+}
+
+void	scale_points(t_matrix *a, t_matrix *b, t_data *new, t_mlx *mlx)
+{
+	new->ax = a->x * mlx->scale - mlx->width * mlx->scale / 2;
+	new->ay = a->y * mlx->scale - mlx->height * mlx->scale / 2;
+	new->az = a->z * mlx->scale_z;
+	new->bx = b->x * mlx->scale - mlx->width * mlx->scale / 2;
+	new->by = b->y * mlx->scale - mlx->height * mlx->scale / 2;
+	new->bz = b->z * mlx->scale_z;
 }
 
 /*
@@ -32,23 +47,22 @@ t_data	adj_data(t_matrix a, t_matrix b, t_mlx *mlx)
 	t_data	new;
 
 	set_style(&a, &b, &new, mlx);
+	scale_points(&a, &b, &new, mlx);
+	rotate_x(&new, mlx);
+	rotate_y(&new, mlx);
+	rotate_z(&new, mlx);
 	if (mlx->is_iso == 1)
-		isometric(&a, &b, &new, mlx);
-	if (mlx->is_iso == 0)
-	{
-		new.ax = a.x * mlx->scale + mlx->offset_x;
-		new.ay = a.y * mlx->scale + mlx->offset_y;
-		new.az = a.z * mlx->scale_z;
-		new.bx = b.x * mlx->scale + mlx->offset_x;
-		new.by = b.y * mlx->scale + mlx->offset_y;
-		new.bz = b.z * mlx->scale_z;
-	}
-	new.dx = ft_abs_f(new.bx - new.ax);
-	new.dy = ft_abs_f(new.by - new.ay);
+		isometric(&new, mlx);
+	new.ax += mlx->offset_x;
+	new.ay += mlx->offset_y;
+	new.bx += mlx->offset_x;
+	new.by += mlx->offset_y;
+	new.dx = ft_abs_f((float)(new.bx - new.ax));
+	new.dy = ft_abs_f((float)(new.by - new.ay));
 	new.startx = new.ax;
 	new.starty = new.ay;
-	new.step_x = new.bx - new.ax;
-	new.step_y = new.by - new.ay;
+	new.step_x = (float)(new.bx - new.ax);
+	new.step_y = (float)(new.by - new.ay);
 	new.max = set_max(new.step_x, new.step_y);
 	new.step_x /= new.max;
 	new.step_y /= new.max;
@@ -72,21 +86,13 @@ void	draw_line(t_matrix a, t_matrix b, t_mlx *mlx)
 		}
 		if (ab.a_color != ab.b_color)
 			ab.color = set_color(ab);
-		my_pixel_put(&mlx->img, ab.ax, ab.ay, ab.color);
+		my_pixel_put(&mlx->img, (int)ab.ax, (int)ab.ay, ab.color);
 		ab.ax += ab.step_x;
 		ab.ay += ab.step_y;
 	}
 	if (ab.ax < (mlx->win_x - 1) && ab.ay < mlx->win_y
 		&& ab.ay > 0 && ab.ax > 0)
-		my_pixel_put(&mlx->img, ab.ax, ab.ay, ab.color);
-}
-
-void	new_img(t_mlx *mlx)
-{
-	mlx_destroy_image(mlx->mlx_ptr, mlx->img.img);
-	mlx->img.img = mlx_new_image(mlx->mlx_ptr, mlx->win_x, mlx->win_y);
-	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp,
-			&mlx->img.line_len, &mlx->img.endian);
+		my_pixel_put(&mlx->img, (int)ab.ax, (int)ab.ay, ab.color);
 }
 
 void	draw_img(t_mlx *mlx)
@@ -112,6 +118,8 @@ void	draw_img(t_mlx *mlx)
 	}
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img.img, 0, 0);
 	write_instruct(mlx);
+//	mlx_hook(mlx->win_ptr, 2, 0, deal_key, mlx);
 	mlx_key_hook(mlx->win_ptr, deal_key, mlx);
+//	mlx_hook(mlx->win_ptr, 2, 0, key_pressed, mlx);
 	mlx_loop(mlx->mlx_ptr);
 }

@@ -67,7 +67,7 @@ void	get_length(char *file, t_mlx *mlx)
 		kill_err("Empty map");
 	check_line(line);
 	if (ret > 0)
-		mlx->width = (int)ft_word_count(line, ' ');
+		mlx->width = ft_word_count(line, ' ');
 	while (ret != 0)
 	{
 		if (ret < 0)
@@ -91,6 +91,9 @@ void	set_default(t_mlx *mlx)
 	mlx->win_x = 1440;
 	mlx->win_y = 900;
 	mlx->angle = 0.53599;
+	mlx->alpha = 0;
+	mlx->beta = 0;
+	mlx->gamma = 0;
 	mlx->scale = mlx->win_x / (mlx->height * 2);
 	if (mlx->width >= mlx->height)
 		mlx->scale = mlx->win_x / (mlx->width * 2);
@@ -100,15 +103,7 @@ void	set_default(t_mlx *mlx)
 	mlx->max_z = 0;
 	mlx->min_z = 0;
 	mlx->is_iso = 1;
-	mlx->offset_x = (mlx->width * mlx->scale) / 2 - mlx->win_x / 2;
-	if (mlx->width < mlx->win_x)
-		mlx->offset_x = mlx->win_x / 4 * 3 - (mlx->width * mlx->scale) / 2;
-	if (mlx->offset_x <= 0 || mlx->offset_x > mlx->win_x)
-		mlx->offset_x = 0;
-	mlx->offset_y = (mlx->height * mlx->scale) / 2 - mlx->win_y / 2;
-	if (mlx->height < mlx->win_y)
-		mlx->offset_y = mlx->win_y / 3 - (mlx->height * mlx->scale) / 2;
-	if (mlx->offset_y <= 0 || mlx->offset_y > mlx->win_y)
-		mlx->offset_y = 0;
+	mlx->offset_x = mlx->width * mlx->scale / 2 + 300;
+	mlx->offset_y = mlx->height * mlx->scale / 2 + 150;
 	mlx->color_style = 3;
 }

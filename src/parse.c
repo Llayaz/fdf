@@ -17,7 +17,7 @@
 ** color for map
 */
 
-int	parse_color(char *str)
+int	parse_color(char *str, t_mlx *mlx)
 {
 	char	**parts;
 	int		i;
@@ -27,18 +27,18 @@ int	parse_color(char *str)
 	ret = 0;
 	parts = ft_strsplit(str, ',');
 	if (!parts)
-		kill_err("Failed to parse in parse_color");
+		kill_mlx("Failed to parse in parse_color", mlx);
 	while (parts[i] != NULL)
 		i++;
 	if (i > 2)
-		kill_array(parts);
+		kill_all("Invalid map", parts, mlx);
 	if (parts[1] == NULL)
 	{
 		ft_free_array(parts);
 		return (0);
 	}
 	if (is_color(parts[1]) != 1)
-		kill_array(parts);
+		kill_all("Invalid map", parts, mlx);
 	ret = ft_atoi_hex(parts[1]);
 	ft_free_array(parts);
 	return (ret);
@@ -54,11 +54,11 @@ void	parse_map(char *line, t_mlx *mlx, size_t y)
 	i = 0;
 	arr = ft_strsplit(line, ' ');
 	if (!arr)
-		kill_err("Failed to parse in parse_map");
+		kill_mlx("Failed to parse in parse_map", mlx);
 	while (i < mlx->width)
 	{
-		if (is_valid(arr[i]) != 1)
-			kill_err("Invalid map");
+		if (is_valid(arr[i], mlx) != 1)
+			kill_all("Invalid map", arr, mlx);
 		mlx->map[y][i].z = ft_atoi(arr[i]);
 		mlx->map[y][i].x = i;
 		mlx->map[y][i].y = y;
@@ -66,7 +66,7 @@ void	parse_map(char *line, t_mlx *mlx, size_t y)
 			mlx->max_z = mlx->map[y][i].z;
 		if (mlx->map[y][i].z < mlx->min_z)
 			mlx->min_z = mlx->map[y][i].z;
-		mlx->map[y][i].color = parse_color(arr[i]);
+		mlx->map[y][i].color = parse_color(arr[i], mlx);
 		i++;
 	}
 	ft_free_array(arr);
@@ -88,7 +88,7 @@ void	allocate_map(t_mlx *mlx)
 	{
 		mlx->map[y] = ft_memalloc(sizeof(t_matrix) * mlx->width);
 		if (!mlx->map[y])
-			kill_err("Failed to allocate");
+			kill_mlx("Failed to allocate", mlx);
 		y++;
 	}
 }
@@ -104,13 +104,13 @@ void	make_map(char *file, t_mlx *mlx)
 	allocate_map(mlx);
 	fd = open(file, O_RDONLY);
 	if (fd <= 0)
-		kill_err("Failed to open file");
+		kill_mlx("Failed to open file", mlx);
 	ret = 1;
 	while (y < mlx->height)
 	{
 		ret = get_next_line(fd, &line);
 		if (ret < 0)
-			kill_err("Failed to read");
+			kill_mlx("Failed to read", mlx);
 		parse_map(line, mlx, y);
 		ft_strdel(&line);
 		y++;

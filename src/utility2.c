@@ -12,25 +12,24 @@
 
 #include "fdf.h"
 
-void	kill_array(char **arr)
-{
-	ft_free_array(arr);
-	perror("Error");
-	exit(1);
-}
-
 void	write_instruct(t_mlx *mlx)
 {
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 25, 0xffffff, "How to use");
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 50, 0xffffff, "ESC to quit");
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 75, 0xffffff,
-		"P : change projection");
+		"P : parallel projection");
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 100, 0xffffff,
-		"Use arrows to move");
+		"I : isometric projection");
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 125, 0xffffff,
-		"+ - : change scale");
+		"Use arrows to move");
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 150, 0xffffff,
-		"8 9 : change z scale");
+		"+ - : change scale");
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 175, 0xffffff,
+		"8 9 : change z scale");
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 200, 0xffffff,
 		", . : change angle");
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 225, 0xffffff,
+		"O : recenter");
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 250, 0xffffff,
+		"1 2 3: color styles");
 }

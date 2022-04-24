@@ -32,16 +32,16 @@ typedef struct s_img
 
 typedef struct s_data
 {
-	float	ax;
-	float	ay;
+	double	ax;
+	double	ay;
 	float	az;
-	float	bx;
-	float	by;
+	double	bx;
+	double	by;
 	float	bz;
 	float	dx;
 	float	dy;
-	float	startx;
-	float	starty;
+	double	startx;
+	double	starty;
 	float	step_x;
 	float	step_y;
 	float	max;
@@ -52,8 +52,8 @@ typedef struct s_data
 
 typedef struct s_matrix
 {
-	int		x;
-	int		y;
+	size_t	x;
+	size_t	y;
 	int		z;
 	int		color;
 }	t_matrix;
@@ -70,7 +70,10 @@ typedef struct s_mlx
 	size_t		height;
 	float		max_z;
 	float		min_z;
-	float		angle;
+	double		angle;
+	double		alpha;
+	double		beta;
+	double		gamma;
 	float		scale;
 	float		scale_z;
 	float		is_iso;
@@ -79,23 +82,31 @@ typedef struct s_mlx
 	size_t		color_style;
 }	t_mlx;
 
+void	my_pixel_put(t_img *img, int x, int y, int color);
+void	new_img(t_mlx *mlx);
+int		deal_key(int key_nb, t_mlx *mlx);
+void	clearup(t_mlx *mlx);
 void	kill_err(char *err);
-void	kill_array(char **arr);
+void	kill_mlx(char *err, t_mlx *mlx);
+void	kill_all(char *err, char **arr, t_mlx *mlx);
 void	get_length(char *file, t_mlx *mlx);
 void	set_default(t_mlx *mlx);
 void	make_map(char *file, t_mlx *mlx);
-int		deal_key(int key_nb, t_mlx *mlx);
-void	my_pixel_put(t_img *img, int x, int y, int color);
 void	draw_img(t_mlx *mlx);
 void	draw_line(t_matrix a, t_matrix b, t_mlx *mlx);
+void	lineclip(t_matrix a, t_matrix b, t_mlx *mlx);
 t_data	adj_data(t_matrix a, t_matrix b, t_mlx *mlx);
-int		is_valid(char *str);
+int		is_valid(char *str, t_mlx *mlx);
 int		is_color(char *str);
 float	set_max(float a, float b);
-void	clearup(t_mlx *mlx);
-void	lineclip(t_matrix a, t_matrix b, t_mlx *mlx);
 int		set_color(t_data ab);
 void	set_style(t_matrix *a, t_matrix *b, t_data *new, t_mlx *mlx);
 void	write_instruct(t_mlx *mlx);
+void	rotate_x(t_data *new, t_mlx *mlx);
+void	rotate_y(t_data *new, t_mlx *mlx);
+void	rotate_z(t_data *new, t_mlx *mlx);
+void	move_key(int key_nb, t_mlx *mlx);
+void	projection_rotation(int key_nb, t_mlx *mlx);
+int		key_pressed(int key_nb, t_mlx *mlx);
 
 #endif

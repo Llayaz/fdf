@@ -28,7 +28,8 @@ void	lineclip(t_matrix a, t_matrix b, t_mlx *mlx)
 			line_ab.color = set_color(line_ab);
 		if (line_ab.ax < (mlx->win_x - 1) && line_ab.ay < mlx->win_y
 			&& line_ab.ay > 0 && line_ab.ax > 0)
-			my_pixel_put(&mlx->img, line_ab.ax, line_ab.ay, line_ab.color);
+			my_pixel_put(&mlx->img, (int)line_ab.ax, (int)line_ab.ay,
+				line_ab.color);
 		line_ab.ax += line_ab.step_x;
 		line_ab.ay += line_ab.step_y;
 	}
