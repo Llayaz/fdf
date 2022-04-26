@@ -65,6 +65,8 @@ void	get_length(char *file, t_mlx *mlx)
 	ret = get_next_line(fd, &line);
 	if (ret == 0)
 		kill_err("Empty map");
+	if (ret < 0)
+		kill_err("Reading error");
 	check_line(line);
 	if (ret > 0)
 		mlx->width = ft_word_count(line, ' ');
@@ -99,7 +101,7 @@ void	set_default(t_mlx *mlx)
 		mlx->scale = mlx->win_x / (mlx->width * 2);
 	if (mlx->scale < 5)
 		mlx->scale = 5;
-	mlx->scale_z = 5;
+	mlx->scale_z = 1;
 	mlx->max_z = 0;
 	mlx->min_z = 0;
 	mlx->is_iso = 1;

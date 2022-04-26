@@ -12,6 +12,16 @@
 
 #include "fdf.h"
 
+int	close_window(t_mlx *mlx)
+{
+	clearup(mlx);
+	mlx_destroy_image(mlx->mlx_ptr, mlx->img.img);
+	mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
+	free(mlx->mlx_ptr);
+	exit (0);
+	return (0);
+}
+
 void	clearup(t_mlx *mlx)
 {
 	size_t	i;

@@ -27,9 +27,13 @@ void	write_instruct(t_mlx *mlx)
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 175, 0xffffff,
 		"8 9 : change z scale");
 	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 200, 0xffffff,
-		", . : change angle");
-	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 225, 0xffffff,
 		"O : recenter");
-	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 250, 0xffffff,
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 225, 0xffffff,
 		"1 2 3: color styles");
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 250, 0xffffff,
+		"E D : rotate on x");
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 275, 0xffffff,
+		"R F : rotate on y");
+	mlx_string_put(mlx->mlx_ptr, mlx->win_ptr, 25, 300, 0xffffff,
+		"T G : rotate on z");
 }

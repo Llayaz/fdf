@@ -21,6 +21,31 @@
 # include <errno.h>
 # include <stdio.h>
 
+# define ARROW_UP		65362
+# define ARROW_DOWN		65364
+# define ARROW_LEFT		65361
+# define ARROW_RIGHT	65363
+
+# define KEY_ESC		65307
+# define KEY_I			105
+# define KEY_P			112
+# define KEY_O			111
+# define KEY_E			114
+# define KEY_D			100
+# define KEY_R			101
+# define KEY_F			102
+# define KEY_T			116
+# define KEY_G			103
+
+# define MAIN_PAD_1		49
+# define MAIN_PAD_2		50
+# define MAIN_PAD_3		51
+
+# define MAIN_PAD_8		56
+# define MAIN_PAD_9		57
+# define MAIN_PAD_PLUS	43
+# define MAIN_PAD_MINUS	45
+
 typedef struct s_img
 {
 	void	*img;
@@ -85,6 +110,7 @@ typedef struct s_mlx
 void	my_pixel_put(t_img *img, int x, int y, int color);
 void	new_img(t_mlx *mlx);
 int		deal_key(int key_nb, t_mlx *mlx);
+int		close_window(t_mlx *mlx);
 void	clearup(t_mlx *mlx);
 void	kill_err(char *err);
 void	kill_mlx(char *err, t_mlx *mlx);

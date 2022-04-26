@@ -76,17 +76,18 @@ void	draw_line(t_matrix a, t_matrix b, t_mlx *mlx)
 	ab = adj_data(a, b, mlx);
 	while ((int)(ab.ax - ab.bx) || (int)(ab.ay - ab.by))
 	{
-		if (ab.ax > (mlx->win_x - 1) || ab.ay > mlx->win_y
+		/*if (ab.ax > (mlx->win_x - 1) || ab.ay > mlx->win_y
 			|| ab.ay < 0 || ab.ax < 0)
 		{
 			if ((ab.bx > 0 && ab.bx < (mlx->win_x - 1))
 				|| (ab.by > 0 && ab.by < (mlx->win_y)))
 				lineclip(a, b, mlx);
 			break ;
-		}
+		}*/
 		if (ab.a_color != ab.b_color)
 			ab.color = set_color(ab);
-		my_pixel_put(&mlx->img, (int)ab.ax, (int)ab.ay, ab.color);
+		if (ab.ax > 0 && ab.ax < (mlx->win_x - 1) && ab.ay > 0 && ab.ay < mlx->win_y)
+			my_pixel_put(&mlx->img, (int)ab.ax, (int)ab.ay, ab.color);
 		ab.ax += ab.step_x;
 		ab.ay += ab.step_y;
 	}
@@ -118,8 +119,9 @@ void	draw_img(t_mlx *mlx)
 	}
 	mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx->img.img, 0, 0);
 	write_instruct(mlx);
-//	mlx_hook(mlx->win_ptr, 2, 0, deal_key, mlx);
-	mlx_key_hook(mlx->win_ptr, deal_key, mlx);
-//	mlx_hook(mlx->win_ptr, 2, 0, key_pressed, mlx);
+//	mlx_key_hook(mlx->win_ptr, deal_key, mlx);
+	mlx_hook(mlx->win_ptr, 3, 0x02, deal_key, mlx);
+	mlx_hook(mlx->win_ptr, 2, 0x01, key_pressed, mlx);
+	mlx_hook(mlx->win_ptr, 17, 0x00, close_window, mlx);
 	mlx_loop(mlx->mlx_ptr);
 }

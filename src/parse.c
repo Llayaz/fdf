@@ -44,7 +44,7 @@ int	parse_color(char *str, t_mlx *mlx)
 	return (ret);
 }
 
-/* parsing line by line the x,y,z values */
+/* parsing line by line the x,y,z values, z range capped at 1 million */
 
 void	parse_map(char *line, t_mlx *mlx, size_t y)
 {
@@ -69,12 +69,10 @@ void	parse_map(char *line, t_mlx *mlx, size_t y)
 		mlx->map[y][i].color = parse_color(arr[i], mlx);
 		i++;
 	}
+	if (mlx->max_z - mlx->min_z > 1000000)
+		kill_all("Invalid map", arr, mlx);
 	ft_free_array(arr);
 }
-
-/*
-** allocating struct array
-*/
 
 void	allocate_map(t_mlx *mlx)
 {
