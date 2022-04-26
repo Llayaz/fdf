@@ -18,11 +18,14 @@ SRC = $Smain.c \
 	$Sreader.c \
 	$Sparse.c \
 	$Skey.c \
+	$Skey2.c \
 	$Sdraw.c \
 	$Sutility.c \
 	$Sutility2.c \
 	$Slineclip.c \
-	$Scolor.c
+	$Scolor.c \
+	$Sexit.c \
+	$Srotate.c
 
 HDR = $Sfdf.h
 
@@ -35,7 +38,7 @@ MLX_DIRECTORY = ./mlx/
 
 CC = gcc
 
-CFLAGS = -Wall -Wextra -Werror -O3
+CFLAGS = -Wall -Wextra -Werror -Wconversion -O3
 MLXFLAGS = -lmlx -lX11 -lXext -framework OpenGL -framework AppKit
 
 RM = /bin/rm -f
